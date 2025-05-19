@@ -133,7 +133,9 @@ const RecipeCreate = ({ onEdit }) => {
             api
               .createRecipe(data)
               .then((res) => {
-                history.push(`/recipes/${res.id}`);
+                console.log("Ответ от бэкенда:", res);
+                history.push(`/recipes/`);
+                //history.push(`/recipes/${res.id}`);
               })
               .catch((err) => {
                 const { non_field_errors, ingredients, cooking_time } = err;

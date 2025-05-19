@@ -232,12 +232,12 @@ class Api {
   }
 
   copyRecipeLink({ id }) {
-    return fetch(`/api/recipes/${id}/get-link/`, {
-      method: "GET",
-      headers: {
-        ...this._headers,
-      },
-    }).then(this.checkResponse);
+      return fetch(`/api/recipes/${id}/get-link/`, {
+        method: "GET",
+        headers: {
+          ...this._headers,
+        },
+      }).then(this.checkResponse);
   }
 
   getUser({ id }) {
@@ -309,7 +309,8 @@ class Api {
       headers: {
         ...this._headers,
       },
-    }).then(this.checkResponse);
+    }).then(this.checkResponse)
+    .then(data => data.results);
   }
 
 
