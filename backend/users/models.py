@@ -15,7 +15,7 @@ class User(AbstractUser):
     last_name = models.CharField('Фамилия', max_length=150)
     email = models.EmailField('email-адрес', unique=True)
     role = models.CharField(max_length=100, choices=ROLE_USER, default=USER)
-    avatar = models.ImageField(upload_to='media/', null=True, blank=True, max_length=2**20)
+    avatar = models.ImageField(upload_to='', null=True, blank=True, max_length=2**20)
     password = models.CharField(max_length=150, verbose_name='Пароль')
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'password', 'first_name', 'last_name', 'avatar']
