@@ -45,8 +45,6 @@ services:
     depends_on:
       - backend
       - frontend
-    environment:
-      - SOMETHING=$y
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ../frontend/build:/usr/share/nginx/html/
