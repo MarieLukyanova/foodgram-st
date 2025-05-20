@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from djoser.views import TokenCreateView
+from rest_framework.exceptions import ValidationError
 from djoser.serializers import SetPasswordSerializer
 from rest_framework.permissions import IsAuthenticated
 from api.paginations import ApiPagination
@@ -13,6 +15,15 @@ from .models import User
 from .serializers import FollowSerializer, UserSerializer, AvatarSerializer
 from api.permissions import IsCurrentUserOrAdminOrReadOnly
 
+class CustomTokenCreateView(TokenCreateView):
+    def post(self, request, *args, **kwargs):
+        try:
+            return super().post(request, *args, **kwargs)
+        except ValidationError as exc:
+            detail = exc.detail
+            if 'non_field_errors' in detail:
+                detail['non_field_errors'] = ['Пожалуйста, введите почту и пароль.']
+            return Response(detail, status=status.HTTP_400_BAD_REQUEST)
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()

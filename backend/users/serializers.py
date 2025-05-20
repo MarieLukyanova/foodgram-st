@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
+from djoser.serializers import TokenCreateSerializer
 from drf_extra_fields.fields import Base64ImageField
 from recipes.models import Follow, Recipe
 from .models import User
@@ -12,6 +13,17 @@ class AvatarSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('avatar',)
+
+
+class CustomTokenCreateSerializer(TokenCreateSerializer):
+    def validate(self, attrs):
+        email = attrs.get('email')
+
+        if email and '@' not in email:
+            raise ValidationError({'email': 'Пожалуйста, введите email, а не имя пользователя.'})
+
+        return super().validate(attrs)
+
 
 
 class UserSerializer(serializers.ModelSerializer):

@@ -6,6 +6,12 @@ from recipes.models import Recipe, User
 class IngredientSearchFilter(SearchFilter):
     search_param = 'name'
 
+    def filter_queryset(self, request, queryset, view):
+        search_term = request.query_params.get(self.search_param)
+        if search_term:
+            return queryset.filter(name__istartswith=search_term)
+        return queryset.none()
+
 
 class RecipeFilter(FilterSet):
     author = filters.ModelChoiceFilter(
